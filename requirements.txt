@@ -1,0 +1,12 @@
+pandas
+folium
+scipy.spatial
+numpy
+geopandas
+matplotlib.pyplot
+seaborn
+geopandas
+folium
+dash
+plotly.express
+plotly.graph_objects
