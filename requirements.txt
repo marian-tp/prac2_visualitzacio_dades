@@ -8,5 +8,4 @@ seaborn
 geopandas
 folium
 dash
-plotly.express
-plotly.graph_objects
+plotly
