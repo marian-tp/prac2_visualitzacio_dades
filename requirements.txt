@@ -9,3 +9,4 @@ geopandas
 folium
 dash
 plotly
+openpyxl
