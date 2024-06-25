@@ -3,7 +3,7 @@ folium
 scipy
 numpy
 geopandas
-matplotlib.pyplot
+matplotlib
 seaborn
 geopandas
 folium
