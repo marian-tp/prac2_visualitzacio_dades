@@ -1,6 +1,6 @@
 pandas
 folium
-scipy.spatial
+scipy
 numpy
 geopandas
 matplotlib.pyplot
