@@ -1,0 +1,1 @@
+voila codi_arxius/prac2_visualitzacio.ipynb --port=$PORT --no-browser --Voila.server_url=/ --Voila.ip=0.0.0.0
