@@ -21,49 +21,13 @@ pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
 
 
-"""
-current_dir = os.path.dirname(os.path.abspath(__file__))
+df_lloguer = pd.read_excel('conjunt_dades.xlsx', sheet_name='Lloguer_BCN_districte')
+df_inflacio = pd.read_excel('conjunt_dades.xlsx', sheet_name = 'inflacio')
+df_lloguer_barri = pd.read_excel('conjunt_dades.xlsx', sheet_name = 'Lloguer_BCN_barri')
+df_compra = pd.read_excel('conjunt_dades.xlsx', sheet_name = 'Compra_BCN_districte')
+df_compra_barri = pd.read_excel('conjunt_dades.xlsx', sheet_name = 'Compra_BCN_barri')
 
-print(current_dir)
-
-
-data_file_path = os.path.join(current_dir, 'conjunt_dades.xlsx')
-
-# Imprimir la ruta absoluta del archivo
-print(f"Ruta absoluta del archivo: {data_file_path}")
-
-
-if not os.path.exists(data_file_path):
-    print(f"El archivo no se encuentra en la ruta: {data_file_path}")
-else:
-    print("Archivo encontrado.")
-
-
-
-df_lloguer = pd.read_excel(data_file_path, sheet_name='Lloguer_BCN_districte')
-print("Archivo cargado exitosamente.")
-
-"""
-
-
-
-directori_actual = os.path.dirname(os.path.abspath(__file__))
-arxiu_conjunt_dades = os.path.join(directori_actual, 'conjunt_dades.xlsx')
-
-
-df_lloguer = pd.read_excel(arxiu_conjunt_dades, sheet_name='Lloguer_BCN_districte')
-
-
-df_inflacio = pd.read_excel(arxiu_conjunt_dades, sheet_name = 'inflacio')
-df_lloguer_barri = pd.read_excel(arxiu_conjunt_dades, sheet_name = 'Lloguer_BCN_barri')
-df_compra = pd.read_excel(arxiu_conjunt_dades, sheet_name = 'Compra_BCN_districte')
-df_compra_barri = pd.read_excel(arxiu_conjunt_dades, sheet_name = 'Compra_BCN_barri')
-
-
-arxiu_habitatges = os.path.join(directori_actual, 'habitatges_us_turistic.csv')
-
-df_habitatges_turistic = pd.read_csv(arxiu_habitatges, delimiter=',')
-
+df_habitatges_turistic = pd.read_csv('habitatges_us_turistic.csv', delimiter=',')
 
 df_habitatges_turistic = df_habitatges_turistic.dropna(subset=['LATITUD_Y', 'LONGITUD_X'])
 
@@ -76,9 +40,9 @@ df_habitatges_turistic = df_habitatges_turistic[
 
 
 
-df_renda_lloguer = pd.read_excel(arxiu_conjunt_dades, sheet_name = 'renda_lloguer_BCN')
+df_renda_lloguer = pd.read_excel('conjunt_dades.xlsx', sheet_name = 'renda_lloguer_BCN')
 
-df_padro_obra_nova = pd.read_excel(arxiu_conjunt_dades, sheet_name = 'padro_obra_nova')
+df_padro_obra_nova = pd.read_excel('conjunt_dades.xlsx', sheet_name = 'padro_obra_nova')
 df_padro_obra_nova_districtes = df_padro_obra_nova.groupby(['any', 'districtes municipals']).sum().reset_index()
 
 
@@ -194,14 +158,8 @@ df_compra_mapa = df_compra_mapa[columnes]
 
 
 
-
-
-directori_actual = os.path.dirname(os.path.abspath(__file__))
-arxiu_poligons = os.path.join(directori_actual, '0301100100_UNITATS_ADM_POLIGONS.json')
-
-
 # Càrrega de les dades dels districtes de l'arxiu GeoJSON
-gdf_districtes = gpd.read_file(arxiu_poligons)
+gdf_districtes = gpd.read_file('0301100100_UNITATS_ADM_POLIGONS.json')
 gdf_districtes = gdf_districtes[gdf_districtes['TIPUS_UA'] == 'DISTRICTE']
 
 gdf_compra_districtes = gdf_districtes.merge(df_compra_mapa, how='left', left_on=['FID'], right_on=['codi'])
@@ -229,14 +187,8 @@ def calcular_lloguer_ajustat(row):
 df_lloguer_mapa_barri['lloguer_ajustat'] = df_lloguer_mapa_barri.apply(calcular_lloguer_ajustat, axis=1)
 
 
-
-
-directori_actual = os.path.dirname(os.path.abspath(__file__))
-arxiu_barris = os.path.join(directori_actual, 'barris.geojson')
-
-
 # Càrrega de les dades dels districtes de l'arxiu GeoJSON
-gdf_barris = gpd.read_file(arxiu_barris)
+gdf_barris = gpd.read_file('barris.geojson')
 anys = pd.DataFrame({'any': range(2013, 2024)})
 gdf_barris = gdf_barris.loc[gdf_barris.index.repeat(len(anys))].reset_index(drop=True)
 gdf_barris['any'] = pd.concat([anys]*len(gdf_barris['BARRI'].unique()), ignore_index=True)
@@ -275,7 +227,7 @@ gdf_compra_barris = gdf_barris.merge(df_compra_mapa_barri, how='left', left_on=[
 # VISUALITZACIÓ
 
 
-gdf_districtes = gpd.read_file(arxiu_poligons)
+gdf_districtes = gpd.read_file('0301100100_UNITATS_ADM_POLIGONS.json')
 gdf_districtes = gdf_districtes[gdf_districtes['TIPUS_UA'] == 'DISTRICTE']
 gdf_lloguer_districtes = gdf_districtes.merge(df_lloguer_mapa, how='left', left_on=['FID'], right_on=['codi'])
 
@@ -422,8 +374,6 @@ def mapa_barris (any, compra_lloguer, habitatges_turistics):
 
 
 app = dash.Dash(__name__)
-# CANVI FET PER RENDER
-server = app.server
 
 app.layout = html.Div([
     html.H1("Sector de l'habitatge a Barcelona"),
@@ -564,5 +514,3 @@ def grafic_barres (any_seleccionat):
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-
-
