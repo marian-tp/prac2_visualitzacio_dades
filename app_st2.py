@@ -58,7 +58,6 @@ df_quantils = df_quantils.reset_index()
 df_inflacio['index_acumulat'] = 100  # Índex base 100 pel 2013
 for i in range(1, len(df_inflacio)):
     df_inflacio.loc[i, 'index_acumulat'] = df_inflacio.loc[i-1, 'index_acumulat'] * (1 + df_inflacio.loc[i, 'variacio_IPC'] / 100)
-df_inflacio
 
 
 # Es realitza un merge per obtenir un df combinat del 'df_alquiler' i 'df_inflacio'
@@ -114,7 +113,6 @@ df_quantils = df_quantils.reset_index()
 df_inflacio['index_acumulat'] = 100  # Índex base 100 pel 2013
 for i in range(1, len(df_inflacio)):
     df_inflacio.loc[i, 'index_acumulat'] = df_inflacio.loc[i-1, 'index_acumulat'] * (1 + df_inflacio.loc[i, 'variacio_IPC'] / 100)
-df_inflacio
 
 
 # Es realitza un merge per obtenir un df combinat del 'df_alquiler' i 'df_inflacio'
