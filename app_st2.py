@@ -68,8 +68,6 @@ df_lloguer_inflacio['Q1_ajustat'] = df_lloguer_inflacio['Q1'] * 100 / df_lloguer
 df_lloguer_inflacio['mediana/Q2_ajustat'] = df_lloguer_inflacio['mediana/Q2'] * 100 / df_lloguer_inflacio['index_acumulat']
 df_lloguer_inflacio['Q3_ajustat'] = df_lloguer_inflacio['Q3'] * 100 / df_lloguer_inflacio['index_acumulat']
 
-df_lloguer_inflacio[['any', 'Q1_ajustat', 'mediana/Q2_ajustat', 'Q3_ajustat']]
-
 
 lloguers_ajustats = pd.concat([df_lloguer_inflacio['Q1_ajustat'], df_lloguer_inflacio['mediana/Q2_ajustat'], df_lloguer_inflacio['Q3_ajustat']])
 
@@ -94,7 +92,6 @@ df_lloguer_mapa = pd.merge(df_lloguer_districte, df_inflacio[['any', 'acumulacio
 df_lloguer_mapa['lloguer_ajustat'] = df_lloguer_mapa['lloguer'] / df_lloguer_mapa['acumulacio']
 
 columnes = ['codi', 'districtes municipals', 'any', 'lloguer', 'lloguer_ajustat']
-df_lloguer_mapa = df_lloguer_mapa[columnes]
 
 
 
