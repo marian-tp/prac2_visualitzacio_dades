@@ -3,7 +3,6 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from streamlit.components.v1 import iframe
-from your_module import mapa_barris, mapa_districtes  # Asegúrate de importar tus funciones de mapeo
 import streamlit as st
 import geopandas as gpd
 import pandas as pd
