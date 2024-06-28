@@ -12,3 +12,12 @@ plotly
 openpyxl
 voila
 gunicorn
+streamlit
+pandas
+folium
+geopandas
+matplotlib
+seaborn
+openpyxl
+streamlit-folium
+plotly
