@@ -120,8 +120,6 @@ df_compra_inflacio['Q1_ajustat'] = df_compra_inflacio['Q1'] * 100 / df_compra_in
 df_compra_inflacio['mediana/Q2_ajustat'] = df_compra_inflacio['mediana/Q2'] * 100 / df_compra_inflacio['index_acumulat']
 df_compra_inflacio['Q3_ajustat'] = df_compra_inflacio['Q3'] * 100 / df_compra_inflacio['index_acumulat']
 
-df_compra_inflacio[['any', 'Q1_ajustat', 'mediana/Q2_ajustat', 'Q3_ajustat']]
-
 
 
 compra_ajustats = pd.concat([df_compra_inflacio['Q1_ajustat'], df_compra_inflacio['mediana/Q2_ajustat'], df_compra_inflacio['Q3_ajustat']])
