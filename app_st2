@@ -1,0 +1,105 @@
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+from streamlit.components.v1 import iframe
+from your_module import mapa_barris, mapa_districtes  # Asegúrate de importar tus funciones de mapeo
+
+
+
+
+
+
+
+
+
+
+# Título de la aplicación
+st.title("Sector de l'habitatge a Barcelona")
+
+# Opciones de mapa
+opcio_barris_districtes = st.radio(
+    "Selecciona el tipo de mapa",
+    ('Mapa de Barris', 'Mapa de Districtes')
+)
+st.write("Selecciona entre les opcions compra i lloguer:")
+opcio_compra_lloguer = st.radio(
+    "Compra o Lloguer",
+    ('Compra', 'Lloguer')
+)
+
+# Selección de año
+opcio_any = st.selectbox(
+    "Selecciona l'any",
+    list(range(2013, 2024)),
+    index=10
+)
+
+# Opciones de habitatges turístics
+opcio_habitatges_turistics = st.checkbox('Habitatges turístics')
+
+# Generar mapa
+hab_tur = 'habitatges' if opcio_habitatges_turistics else None
+if opcio_barris_districtes == 'Mapa de Barris':
+    barrio_map = mapa_barris(opcio_any, opcio_compra_lloguer, hab_tur)
+    barrio_map.save('mapa_barrios_barcelona.html')
+    st.components.v1.iframe(src="mapa_barrios_barcelona.html", height=500)
+else:
+    distrito_map = mapa_districtes(opcio_any, opcio_compra_lloguer, hab_tur)
+    distrito_map.save('mapa_distritos_barcelona.html')
+    st.components.v1.iframe(src="mapa_distritos_barcelona.html", height=500)
+
+# Lloguer i renda per districtes
+st.header("Lloguer i renda per districtes del 2015 al 2021")
+districtes_seleccionats = st.multiselect(
+    "Selecciona els districtes",
+    df_renda_lloguer['Districtes municipals'].unique(),
+    default=['Barcelona']
+)
+
+df_compra_seleccio = df_renda_lloguer[df_renda_lloguer['Districtes municipals'].isin(districtes_seleccionats)]
+
+linea_lloguer = px.line(df_compra_seleccio, x='Any', y='mitjana_preu_lloguer', color='Districtes municipals',
+                        labels={'mitjana_preu_lloguer': 'Mitjana Preu Lloguer'}, title="Mitjana Preu Lloguer")
+
+linea_renda = px.line(df_compra_seleccio, x='Any', y='renda_mitjana_mensual', color='Districtes municipals',
+                      labels={'renda_mitjana_mensual': 'Renda Mitjana Mensual'}, title="Renda Mitjana Mensual")
+
+for tipus_linea in linea_renda.data:
+    tipus_linea.update(line=dict(dash='dash'))
+    linea_lloguer.add_trace(tipus_linea)
+
+linea_lloguer.update_layout(
+    xaxis_title="Any",
+    yaxis_title="Cantidad",
+    legend_title="Districtes municipals",
+    template="plotly_white"
+)
+
+linea_lloguer.update_traces(mode='lines+markers')
+linea_lloguer.update_yaxes(title_text="Mitjana preu lloguer / Renda mitjana mensual")
+
+st.plotly_chart(linea_lloguer)
+
+# Evolució de l'obra nova i el padró a Barcelona
+st.header("Evolució de l'obra nova i el padró a Barcelona")
+any_seleccionat = st.selectbox(
+    "Selecciona l'any per a l'evolució de l'obra nova i el padró",
+    anys
+)
+
+df_any = df_padro_obra_nova_districtes[df_padro_obra_nova_districtes['any'] == any_seleccionat]
+fig = go.Figure(data=[
+    go.Bar(name='Obra Nova', x=df_any['districtes municipals'], y=df_any['obra_nova']),
+    go.Bar(name='Evolució del Padró', x=df_any['districtes municipals'], y=df_any['evolucio_padro'], marker_pattern_shape="/")
+])
+fig.update_layout(
+    title=f"Evolució de l'obra nova i el padró a Barcelona - {any_seleccionat}",
+    xaxis_title="Districtes",
+    yaxis_title="Valor",
+    barmode='group',
+    xaxis_tickangle=-45,
+    yaxis=dict(range=[-25000, 25000])
+)
+
+st.plotly_chart(fig)
