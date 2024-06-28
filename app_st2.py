@@ -219,8 +219,6 @@ gdf_compra_barris = gdf_barris.merge(df_compra_mapa_barri, how='left', left_on=[
 
 
 
-
-
 # Cargar datos
 gdf_districtes = gpd.read_file('0301100100_UNITATS_ADM_POLIGONS.json')
 gdf_districtes = gdf_districtes[gdf_districtes['TIPUS_UA'] == 'DISTRICTE']
