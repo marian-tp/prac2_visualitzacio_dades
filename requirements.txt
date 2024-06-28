@@ -11,3 +11,4 @@ dash
 plotly
 openpyxl
 voila
+gunicorn
