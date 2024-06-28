@@ -203,3 +203,4 @@ fig_bars.update_layout(
 )
 
 st.plotly_chart(fig_bars)
+
