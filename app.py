@@ -292,12 +292,12 @@ def mapa_districtes (any, compra_lloguer, habitatges_turistics):
         },
         tooltip=folium.GeoJsonTooltip(
             fields=['NOM'],
-            aliases=['Barri:'],
+            aliases=['Districte:'],
             localize=True,
         ),
         popup=folium.GeoJsonPopup(
             fields=['NOM', 'lloguer'],
-            aliases=['Barri:', 'Lloguer mitjà:'],
+            aliases=['Barri:', 'Preu mitjà:'],
             localize=True
         ),
         highlight_function=lambda x: {'weight': 3, 'color': 'blue'}
@@ -347,7 +347,7 @@ def mapa_barris (any, compra_lloguer, habitatges_turistics):
         ),
         popup=folium.GeoJsonPopup(
             fields=['NOM', 'lloguer'],
-            aliases=['Barri:', 'Lloguer mitjà:'],
+            aliases=['Barri:', 'Preu mitjà:'],
             localize=True
         ),
         highlight_function=lambda x: {'weight': 2, 'color': 'blue'}
