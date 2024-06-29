@@ -375,7 +375,7 @@ def mapa_barris (any, compra_lloguer, habitatges_turistics):
 
 app = dash.Dash(__name__)
 # CANVI PER RENDER
-#server = app.server
+server = app.server
 
 app.layout = html.Div([
     html.H1("Sector de l'habitatge a Barcelona"),
